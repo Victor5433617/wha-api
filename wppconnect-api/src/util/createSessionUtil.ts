@@ -89,6 +89,9 @@ export default class CreateSessionUtil {
               attempt: any,
               urlCode: string
             ) => {
+              if (asciiQR) {
+                req.logger.info(`\n${asciiQR}`);
+              }
               this.exportQR(req, base64Qr, urlCode, client, res);
             },
             onLoadingScreen: (percent: string, message: string) => {

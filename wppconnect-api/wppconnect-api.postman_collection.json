@@ -1,0 +1,743 @@
+{
+  "info": {
+    "_postman_id": "5f8e9d7d-7d3a-4b77-8d35-1d4f8db0d001",
+    "name": "WPPConnect API",
+    "description": "Colección para probar los endpoints principales de WPPConnect Server.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:21465"
+    },
+    {
+      "key": "session",
+      "value": "victor"
+    },
+    {
+      "key": "secretKey",
+      "value": "THISISMYSECURETOKEN"
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "phone",
+      "value": "5511999999999"
+    },
+    {
+      "key": "groupId",
+      "value": "120363000000000000@g.us"
+    },
+    {
+      "key": "messageId",
+      "value": "true_5511999999999@c.us_3EB0XXXXXXX"
+    }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Generate Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{session}}/{{secretKey}}/generate-token",
+              "host": [
+                "localhost:21465"
+              ],
+              "path": [
+                "api",
+                "{{session}}",
+                "{{secretKey}}",
+                "generate-token"
+              ]
+            },
+            "description": "Genera un token JWT. El token se devuelve en el campo 'full'. Copia ese valor en la variable {{token}} para usar en otros endpoints."
+          }
+        },
+        {
+          "name": "Show All Sessions",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{secretKey}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{secretKey}}/show-all-sessions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "{{secretKey}}",
+                "show-all-sessions"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Start All Sessions",
+          "request": {
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{secretKey}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/{{secretKey}}/start-all",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "{{secretKey}}",
+                "start-all"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Sessions",
+      "item": [
+        {
+          "name": "Start Session",
+          "request": {
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"waitQrCode\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/{{session}}/start-session",
+              "host": [
+                "localhost:21465"
+              ],
+              "path": [
+                "api",
+                "{{session}}",
+                "start-session"
+              ]
+            },
+            "description": "Inicia una sesión de WhatsApp. Retorna un QR en base64 que debes escanear con tu teléfono. IMPORTANTE: Primero debes ejecutar 'Generate Token' y copiar el valor 'full' en la variable {{token}}."
+          }
+        },
+        {
+          "name": "Get QR Code",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{session}}/qrcode-session",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "{{session}}",
+                "qrcode-session"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Session State",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{session}}/status-session",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "{{session}}",
+                "status-session"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Check Connection",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{session}}/check-connection-session",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "{{session}}",
+                "check-connection-session"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Close Session",
+          "request": {
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/{{session}}/close-session",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "{{session}}",
+                "close-session"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Messages",
+      "item": [
+        {
+          "name": "Send Message",
+          "request": {
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phone\": [\"{{phone}}\"],\n  \"message\": \"Hola desde Postman\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/{{session}}/send-message",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "{{session}}",
+                "send-message"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Send File",
+          "request": {
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phone\": [\"{{phone}}\"],\n  \"path\": \"C:\\\\path\\\\file.pdf\",\n  \"caption\": \"Archivo de prueba\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/{{session}}/send-file",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "{{session}}",
+                "send-file"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Send Image",
+          "request": {
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phone\": [\"{{phone}}\"],\n  \"path\": \"C:\\\\path\\\\image.png\",\n  \"caption\": \"Imagen de prueba\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/{{session}}/send-image",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "{{session}}",
+                "send-image"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Download Media By Message",
+          "request": {
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"messageId\": \"{{messageId}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/{{session}}/download-media",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "{{session}}",
+                "download-media"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Groups",
+      "item": [
+        {
+          "name": "Create Group",
+          "request": {
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phone\": [\"{{phone}}\"],\n  \"groupname\": \"Grupo de prueba\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/{{session}}/create-group",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "{{session}}",
+                "create-group"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Join Group By Code",
+          "request": {
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"inviteCode\": \"INVITE_CODE_AQUI\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/{{session}}/join-code",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "{{session}}",
+                "join-code"
+              ]
+            }
+          }
+        },
+        {
+          "name": "All Groups",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{session}}/all-groups",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "{{session}}",
+                "all-groups"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Group Info From Invite Link",
+          "request": {
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"inviteCode\": \"INVITE_CODE_AQUI\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/{{session}}/group-info-from-invite-link",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "{{session}}",
+                "group-info-from-invite-link"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Chats",
+      "item": [
+        {
+          "name": "All Chats",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{session}}/all-chats",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "{{session}}",
+                "all-chats"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = pm.response.json();",
+                  "const chats = body.response || body;",
+                  "const arr = Array.isArray(chats) ? chats : [];",
+                  "const names = arr.map(c => c && (c.name || c.formattedTitle || (c.contact && (c.contact.name || c.contact.formattedName)) || c.pushname || (c.id && (c.id._serialized || c.id)) || 'unknown'));",
+                  "pm.environment.set('lastChatNames', names.join(', '));",
+                  "const template = `<div style=\"font-family:Arial,Helvetica,sans-serif;padding:12px;\"><h3>Chat Names ({{names.length}})</h3><ul>{{#each names}}<li>{{this}}</li>{{/each}}</ul></div>`;",
+                  "pm.visualizer.set(template, { names: names });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Unread Messages",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{session}}/unread-messages",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "{{session}}",
+                "unread-messages"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Messages In Chat",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{session}}/all-messages-in-chat/{{phone}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "{{session}}",
+                "all-messages-in-chat",
+                "{{phone}}"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
